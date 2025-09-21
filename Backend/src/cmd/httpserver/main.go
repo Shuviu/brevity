@@ -13,6 +13,7 @@ func main() {
 		Addr:    ":8080",
 		Handler: router,
 	}
+	fmt.Println("Starting Initialization...")
 	sqliteDatabase.InitializeDatabase()
 	httpserver.InitializeRouter(router)
 
