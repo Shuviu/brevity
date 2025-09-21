@@ -4,10 +4,20 @@ import (
 	"brevity/internal/sqliteDatabase"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func HandleDefaultEndpoint(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
+	var reqUrl string = r.URL.Path
+	shortUrl := strings.Split(reqUrl, "/")[1]
+
+	longUrl := sqliteDatabase.GetLongUrlFromShort(shortUrl)
+	if longUrl == "" {
+		http.NotFound(w, r)
+		return
+	}
+
+	http.Redirect(w, r, longUrl, http.StatusPermanentRedirect)
 }
 
 func HandleRegisterShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
@@ -23,12 +33,19 @@ func HandleRegisterShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !sqliteDatabase.InsertNewUrl(longUrl, GenerateShortFromLongUrl(longUrl)) {
+	var shortUrl string = GenerateShortFromLongUrl(longUrl)
+	if !sqliteDatabase.InsertNewUrl(longUrl, shortUrl) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte(shortUrl))
+	w.Header().Set("Content-Type", "json")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 func HandleGetShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {

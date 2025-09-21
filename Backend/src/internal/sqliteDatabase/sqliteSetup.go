@@ -1,6 +1,7 @@
 package sqliteDatabase
 
 import (
+	"fmt"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -22,5 +23,6 @@ func InitializeDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Exec("DROP TABLE url_map")
+
+	fmt.Println("Database initialized successfully...")
 }
