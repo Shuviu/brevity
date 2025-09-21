@@ -3,7 +3,7 @@ package sqliteDatabase
 func InsertNewUrl(longUrl string, shortUrl string) bool {
 	db := openSqliteDB()
 
-	urlInsert, errStmt := db.Prepare("INSERT INTO url_map(longUrl, shortUrl) VALUES(?, ?)")
+	urlInsert, errStmt := db.Prepare("INSERT INTO url_map(longUrl, url_id) VALUES(?, ?)")
 	if errStmt != nil {
 		return false
 	}
