@@ -14,6 +14,7 @@ func HandleDefaultEndpoint(w http.ResponseWriter, r *http.Request) {
 	longUrl := sqliteDatabase.GetLongUrlFromShort(shortUrl)
 	if longUrl == "" {
 		http.NotFound(w, r)
+		return
 	}
 
 	http.Redirect(w, r, longUrl, http.StatusPermanentRedirect)
@@ -38,14 +39,13 @@ func HandleRegisterShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusOK)
 	_, err := w.Write([]byte(shortUrl))
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "json")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func HandleGetShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
