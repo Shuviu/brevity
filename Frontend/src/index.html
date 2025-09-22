@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
+    <script src="js/apiHandler.js"></script>
 </head>
 <body>
     <div class="center">
@@ -13,10 +14,10 @@
         </div>
         <div class="content-container">
             <div class="fullWidth">
-                <form>
+                <form onsubmit="registerNewLongUrl(event)">
                     <label>
                         <span class="title">Url to Shorten</span>
-                        <input type="text" placeholder="www.brevity.shuviu.de/">
+                        <input name="longUrlInput" type="text" placeholder="www.brevity.shuviu.de/">
                     </label>
                     <button type="submit">
                         Submit
@@ -24,7 +25,7 @@
                 </form>
                 <span class="title">Your short Url</span>
                 <label>
-                    <input placeholder="shortUrl.com" readonly>
+                    <input id="shortUrlDisplay" placeholder="shortUrl.com" readonly>
                 </label>
             </div>
         </div>
