@@ -3,51 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Brevity - URL Shortener</title>
     <link rel="stylesheet" href="css/index.css">
     <script src="js/apiHandler.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="center">
-        <div class="headline">
-            <span>Brevity</span>
-        </div>
-        <div class="content-container">
-            <div class="fullWidth">
-                <form onsubmit="registerNewLongUrl(event)">
-                    <label>
-                        <span class="title">Url to Shorten</span>
-                        <input name="longUrlInput" type="text" placeholder="www.brevity.shuviu.de/">
-                    </label>
-                    <button type="submit">
-                        Submit
-                    </button>
-                </form>
-                <span class="title">Your short Url</span>
+<div class="center">
+    <div class="headline">
+        <span>Brevity</span>
+    </div>
+    <div class="main-content">
+        <div class="shortener-card">
+            <form onsubmit="registerNewLongUrl(event)">
                 <label>
-                    <input id="shortUrlDisplay" placeholder="shortUrl.com" readonly>
+                    <span class="title">URL to Shorten</span>
+                    <input name="longUrlInput" type="url" placeholder="https://www.brevity.com/your-long-url-here">
+                </label>
+                <button type="submit">
+                    Shorten
+                </button>
+            </form>
+            <div class="result-box">
+                <label>
+                    <span class="title">Your Short URL</span>
+                    <input id="shortUrlDisplay" placeholder="shortUrl.com/abc123" readonly/>
                 </label>
             </div>
         </div>
-            <div class="content-container">
-                <div class="project-details">
-                    <span class="large-title">How it works behind the scenes:</span>
-                    <ul>
-                        <li>
-                            <span>The frontend is a static website built with plain HTML and CSS, providing a clean, modern user interface</span>
-                            <br>
-                        </li>
-                        <li>
-                            <span>The backend is a RESTful API built with Go, chosen for its excellent performance...</span>
-                            <br>
-                        </li>
-                        <li>
-                            <span>The entire application is deployed using Docker, which containerizes both the frontend and backend services...</span>
-                            <br>
-                        </li>
-                    </ul>
-                </div>
+        <div class="project-details">
+            <span class="large-title">How It's Built:</span>
+            <ul>
+                <li>
+                    <span class="icon">💻</span> <b>The Frontend</b>
+                    <p>A static website built with HTML and CSS for a clean, fast UI. All interactions are handled with vanilla JavaScript to ensure a lightweight and responsive experience.</p>
+                </li>
+                <li>
+                    <span class="icon">⚙️</span> <b>The Backend</b>
+                    <p>A high-performance Go RESTful API handles all the core logic, including URL registration and redirection. It connects to a PostgreSQL database to efficiently store and manage all URL mappings.</p>
+                </li>
+                <li>
+                    <span class="icon">☁️</span> <b>The Hosting</b>
+                    <p>The entire application is deployed using Docker, which containerizes the services for consistent and scalable deployment. Nginx acts as a reverse proxy, managing traffic to a secure Linux server.</p>
+                </li>
+            </ul>
         </div>
     </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <ul>
+                    <li><a href="https://github.com/Shuviu" target="_blank">GitHub</a></li>
+                    <li><a href="https://shuviu.de" target="_blank">Portfolio</a></li>
+                </ul>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2025 Brevity. All rights reserved.</p>
+                <p>A portfolio project by Shuviu.</p>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
 </html>
