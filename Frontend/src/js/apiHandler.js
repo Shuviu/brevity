@@ -6,6 +6,7 @@ async function registerNewLongUrl(event) {
     let longUrl = inputField.value
 
     if (longUrl === ""){
+        alert("Please insert the URL to be shortened")
         return;
     }
     
@@ -16,7 +17,7 @@ async function registerNewLongUrl(event) {
     try {
         const res = await fetch(baseUrl + "register?url=" + longUrl);
         if(!res.ok){
-            throw new Error()
+            alert("Oops.. something went wrong with registering your url.\nPlease contact the administrator")
         }
         shortUrl = await res.text()
     }catch (error){
