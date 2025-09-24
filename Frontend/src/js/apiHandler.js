@@ -4,8 +4,13 @@ async function registerNewLongUrl(event) {
     event.preventDefault()
     let inputField = event.target.elements.longUrlInput
     let longUrl = inputField.value
-    inputField.value = ""
+
+    if (longUrl === ""){
+        return;
+    }
     
+    inputField.value = ""
+
     let shortUrl;
 
     try {
