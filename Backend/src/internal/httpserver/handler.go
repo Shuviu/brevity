@@ -1,7 +1,7 @@
 package httpserver
 
 import (
-	"brevity/internal/sqliteDatabase"
+	"brevity/internal/databaseHandling"
 	"database/sql"
 	"net/http"
 	"net/url"
