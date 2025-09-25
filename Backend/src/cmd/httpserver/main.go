@@ -27,10 +27,11 @@ func main() {
 		Addr:    ":8080",
 		Handler: handler,
 	}
-
 	fmt.Println("Starting Initialization...")
-	sqliteDatabase.InitializeDatabase()
-	httpserver.InitializeRouter(router)
+
+	dbWrapper := httpserver.DbReqWrapper{Db: sqliteDatabase.OpenSqliteDB()}
+	sqliteDatabase.InitializeDatabase(dbWrapper.Db)
+	httpserver.InitializeRouter(router, dbWrapper)
 
 	fmt.Println("Starting server on port 8080...")
 	err := server.ListenAndServe()

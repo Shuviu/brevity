@@ -5,11 +5,10 @@ import (
 	"net/http"
 )
 
-func InitializeRouter(router *http.ServeMux) {
+func InitializeRouter(router *http.ServeMux, dbWrapper DbReqWrapper) {
 	fmt.Println("Registering routes...")
-	router.HandleFunc("/", HandleDefaultEndpoint)
-	router.HandleFunc("/register", HandleRegisterShortUrlEndpoint)
+	router.HandleFunc("/", dbWrapper.HandleDefaultEndpoint)
+	router.HandleFunc("/register", dbWrapper.HandleRegisterShortUrlEndpoint)
 	router.HandleFunc("/get", HandleGetShortUrlEndpoint)
 	router.HandleFunc("/delete", HandleDeleteShortUrlEndpoint)
-
 }

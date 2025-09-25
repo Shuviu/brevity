@@ -1,11 +1,13 @@
 package sqliteDatabase
 
+import "database/sql"
+
 // InsertNewUrl inserts the provided long url with redirection hash in the database returns true if the entry was inserted successfully
-func InsertNewUrl(longUrl string, shortUrl string) bool {
-	db := openSqliteDB()
+func InsertNewUrl(longUrl string, shortUrl string, database *sql.DB) bool {
+	db := database
 
 	// Prepare sql statement
-	urlInsert, errStmt := db.Prepare("INSERT INTO url_map(long_url, url_id) VALUES(?, ?)")
+	urlInsert, errStmt := db.Prepare("INSERT INTO url_map(long_url, url_id) VALUES($1, $2)")
 	if errStmt != nil {
 		return false
 	}
@@ -19,11 +21,11 @@ func InsertNewUrl(longUrl string, shortUrl string) bool {
 }
 
 // GetLongUrlFromShort Retrieves the longUrl corresponding to the redirection hash stored in the database. Returns empty string if not found
-func GetLongUrlFromShort(shortUrl string) string {
-	db := openSqliteDB()
+func GetLongUrlFromShort(shortUrl string, database *sql.DB) string {
+	db := database
 
 	// prepare and exec sql statement
-	selectStmt, errStmt := db.Prepare("SELECT long_url FROM url_map WHERE url_id=?")
+	selectStmt, errStmt := db.Prepare("SELECT long_url FROM url_map WHERE url_id=$1")
 	if errStmt != nil {
 		return ""
 	}
@@ -41,8 +43,8 @@ func GetLongUrlFromShort(shortUrl string) string {
 }
 
 // DeleteEntryFromShortUrl Deletes the entry corresponding to the provided redirection hash provided
-func DeleteEntryFromShortUrl(shortUrl string) bool {
-	db := openSqliteDB()
+func DeleteEntryFromShortUrl(shortUrl string, database *sql.DB) bool {
+	db := database
 
 	// Prepare sql statement
 	deleteStmt, errStmt := db.Prepare("DELETE FROM url_map WHERE url_id=?")
