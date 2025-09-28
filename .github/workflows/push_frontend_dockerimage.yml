@@ -1,0 +1,27 @@
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: |
+        docker build ./Frontend/ \
+          --file ./Frontend/Dockerfile \
+          --tag ghcr.io/shuviu/brevity_frontend:latest
+
+    - name: Log in to GitHub Container Registry (GHCR)
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GH_PAT }}
+    - name: Push the Frontend image to GHCR
+      run: docker push ghcr.io/shuviu/brevity_frontend:latest
