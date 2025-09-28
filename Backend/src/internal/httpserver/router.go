@@ -1,15 +1,12 @@
 package httpserver
 
 import (
-	"fmt"
 	"net/http"
 )
 
-func InitializeRouter(router *http.ServeMux) {
-	fmt.Println("Registering routes...")
-	router.HandleFunc("/", HandleDefaultEndpoint)
-	router.HandleFunc("/register", HandleRegisterShortUrlEndpoint)
+func InitializeRouter(router *http.ServeMux, dbWrapper DbReqWrapper) {
+	router.HandleFunc("/", dbWrapper.HandleDefaultEndpoint)
+	router.HandleFunc("/register", dbWrapper.HandleRegisterShortUrlEndpoint)
 	router.HandleFunc("/get", HandleGetShortUrlEndpoint)
 	router.HandleFunc("/delete", HandleDeleteShortUrlEndpoint)
-
 }

@@ -1,20 +1,25 @@
 package httpserver
 
 import (
-	"brevity/internal/sqliteDatabase"
+	"brevity/internal/databaseHandling"
+	"database/sql"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
+type DbReqWrapper struct {
+	Db *sql.DB
+}
+
 // HandleDefaultEndpoint redirects to the url provided in the request url
-func HandleDefaultEndpoint(w http.ResponseWriter, r *http.Request) {
+func (dbwrapper DbReqWrapper) HandleDefaultEndpoint(w http.ResponseWriter, r *http.Request) {
 	// fetch redirection hash
 	var reqUrl string = r.URL.Path
 	shortUrl := strings.Split(reqUrl, "/")[1]
 
 	// fetch long url form db and redirect
-	longUrl := sqliteDatabase.GetLongUrlFromShort(shortUrl)
+	longUrl := sqliteDatabase.GetLongUrlFromShort(shortUrl, dbwrapper.Db)
 	if longUrl == "" {
 		w.WriteHeader(http.StatusNotFound)
 		_, err := w.Write([]byte("No corresponding entry for this url"))
@@ -29,7 +34,7 @@ func HandleDefaultEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleRegisterShortUrlEndpoint stores the provided url in the database and returns the given hash as a response.
-func HandleRegisterShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
+func (dbWrapper DbReqWrapper) HandleRegisterShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
 	// fetch and check the provided url
 	var params url.Values = r.URL.Query()
 	longUrl := params.Get("url")
@@ -45,7 +50,7 @@ func HandleRegisterShortUrlEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	// generate redirection hash and store in db
 	var shortUrl string = GenerateShortFromLongUrl(longUrl)
-	if !sqliteDatabase.InsertNewUrl(longUrl, shortUrl) {
+	if !sqliteDatabase.InsertNewUrl(longUrl, shortUrl, dbWrapper.Db) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
