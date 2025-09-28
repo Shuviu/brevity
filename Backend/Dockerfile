@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=builder /go-server .
 
 EXPOSE 8080
-CMD ["/app/go-server"]
+CMD ["/app/go-server", ""]

@@ -14,7 +14,7 @@ import (
 func main() {
 	router := http.NewServeMux()
 
-	loadEnvironmentFile()
+	//	loadEnvironmentFile()
 	dbWrapper := setupDatabaseWrapper()
 	handler := setupCorsHeaders(router)
 
@@ -47,7 +47,7 @@ func loadEnvironmentFile() {
 func setupCorsHeaders(router http.Handler) http.Handler {
 	// setup cors headers
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000", "https://brevity.shuviu.de"},
+		AllowedOrigins:   []string{"http://localhost:3000", "https://brevity.shuviu.de, https://www.brevity.shuviu.de/"},
 		AllowedMethods:   []string{"GET"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
