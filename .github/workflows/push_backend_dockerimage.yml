@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build ./Backend/ --file Dockerfile --tag ghcr.io/Shuviu/brevity_backend:latest
+    - name: push the image to ghcr
+      run: |
+        docker login --username Shuviu --password ${{ secrets.GH_PAT }} ghcr.io
+        docker push ghcr.io/Shuviu/brevity_backend:latest
+      
