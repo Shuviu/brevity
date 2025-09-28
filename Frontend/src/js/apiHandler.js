@@ -1,4 +1,4 @@
-const baseUrl = "https://brevity.shuviu.de/api/"
+const baseUrl = "https://brevity.shuviu.de/"
 
 async function registerNewLongUrl(event) {
     event.preventDefault()
@@ -15,7 +15,7 @@ async function registerNewLongUrl(event) {
     let shortUrl;
 
     try {
-        const res = await fetch(baseUrl + "register?url=" + longUrl);
+        const res = await fetch(baseUrl + "api/register?url=" + longUrl);
         if(!res.ok){
             alert("Oops.. something went wrong with registering your url.\nPlease contact the administrator")
         }
