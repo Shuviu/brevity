@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8080/"
+const baseUrl = "https://brevity.shuviu.de/api/"
 
 async function registerNewLongUrl(event) {
     event.preventDefault()
